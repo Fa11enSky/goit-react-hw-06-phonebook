@@ -1,5 +1,12 @@
 import css from './filter.module.css';
-const Filter = ({ handleInput }) => {
+import { filterUse } from 'store/filterSlice';
+import { useDispatch } from 'react-redux';
+const Filter = () => {
+  const dispatch = useDispatch();
+  const handleInput = ev => {
+    const text = ev.target.value;
+    dispatch(filterUse(text));
+  };
   return (
     <label className={css.filter_label}>
       Find Your contacts by name
@@ -7,7 +14,7 @@ const Filter = ({ handleInput }) => {
         type="text"
         name="filter"
         placeholder="Search"
-        onInput={handleInput}
+        onChange={handleInput}
       />
     </label>
   );
