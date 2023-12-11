@@ -6,13 +6,17 @@ import { getContacts } from 'store/selectors';
 const ContactForm = ({ updateContacts }) => {
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
-  const contacts = useSelector(getContacts)
+  const contacts = useSelector(getContacts);
   const dispatch = useDispatch();
-  const handleInputName = ev => {
-    setName(ev.target.value);
-  };
-  const handleInputNumber = ev => {
-    setNumber(ev.target.value);
+  const handleInput = ev => {
+    if (ev.target.name === 'name') {
+      setName(ev.target.value)
+      return
+    }
+    if (ev.target.name === 'number') {
+      setNumber(ev.target.value)
+      return
+    }
   };
   const handleSubmit = ev => {
     ev.preventDefault();
@@ -20,9 +24,13 @@ const ContactForm = ({ updateContacts }) => {
       name,
       number,
     };
-    if (contacts.find(el => el.name.toLowerCase() === newContact.name.toLocaleLowerCase())) {
+    if (
+      contacts.find(
+        el => el.name.toLowerCase() === newContact.name.toLocaleLowerCase()
+      )
+    ) {
       alert(` ${newContact.name} is already in contacts`);
-      return
+      return;
     }
     dispatch(addContact(newContact));
 
@@ -34,7 +42,7 @@ const ContactForm = ({ updateContacts }) => {
         Name
         <input
           className={css.contact_input}
-          onInput={handleInputName}
+          onInput={handleInput}
           type="text"
           name="name"
           required
@@ -47,7 +55,7 @@ const ContactForm = ({ updateContacts }) => {
           type="tel"
           name="number"
           required
-          onInput={handleInputNumber}
+          onInput={handleInput}
         />
       </label>
 
